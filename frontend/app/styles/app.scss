@@ -1,0 +1,11 @@
+$primary: "coffee";
+$accent: "chocolate";
+$warn: "cactus";
+
+@import 'ember-paper';
+
+body {
+    background-image: url(images/pattern.jpg);
+    background-repeat: repeat;
+    background-size: 1000px 1140px;
+}

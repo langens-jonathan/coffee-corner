@@ -1,67 +1,47 @@
 (in-package :mu-cl-resources)
 
-;;;;
-;; NOTE
-;; docker-compose stop; docker-compose rm; docker-compose up
-;; after altering this file.
+(define-resource task ()
+  :class (s-prefix "todos:Task")
+  :properties `((:title :string ,(s-prefix "dct:title"))
+                (:description :string ,(s-prefix "dct:description"))
+                (:done :boolean ,(s-prefix "todos:done"))
+                (:due :date ,(s-prefix "todos:due"))
+                (:priority :int ,(s-prefix "todos:priority")))
+  :has-many `((tag :via ,(s-prefix "todos:tag")
+                   :as "tags")
+              (user :via ,(s-prefix "todos:owner")
+                    :as "authors")
+              )
+  :resource-base (s-url "http://resources.gamerlords.com/todos/tasks/")
+  :on-path "tasks"
+)
 
-;; Describe your resources here
+;; (define-resource user ()
+;;   :class (s-prefix "foaf:Person")
+;;   :properties `((:name :string ,(s-prefix "foaf:name"))
+;;                 (:password :string ,(s-prefix "todos:pwd"))
+;;                 )
+;;   :resource-base (s-url "http://resources.gamerlords.com/todos/users/")
+;;   :on-path "users"
+;; )
 
-;; The general structure could be described like this:
-;;
-;; (define-resource <name-used-in-this-file> ()
-;;   :class <class-of-resource-in-triplestore>
-;;   :properties `((<json-property-name-one> <type-one> ,<triplestore-relation-one>)
-;;                 (<json-property-name-two> <type-two> ,<triplestore-relation-two>>))
-;;   :has-many `((<name-of-an-object> :via ,<triplestore-relation-to-objects>
-;;                                    :as "<json-relation-property>")
-;;               (<name-of-an-object> :via ,<triplestore-relation-from-objects>
-;;                                    :inverse t ; follow relation in other direction
-;;                                    :as "<json-relation-property>"))
-;;   :has-one `((<name-of-an-object :via ,<triplestore-relation-to-object>
-;;                                  :as "<json-relation-property>")
-;;              (<name-of-an-object :via ,<triplestore-relation-from-object>
-;;                                  :as "<json-relation-property>"))
-;;   :resource-base (s-url "<string-to-which-uuid-will-be-appended-for-uri-of-new-items-in-triplestore>")
-;;   :on-path "<url-path-on-which-this-resource-is-available>")
+(define-resource tag ()
+  :class (s-prefix "todos:Tag")
+  :properties `((:pref-label :string ,(s-prefix "skos:prefLabel")))
+  :resource-base (s-url "http://resources.gamerlords.com/todos/tags/")
+  :on-path "tags"
+  )
 
+(define-resource theme ()
+  :class (s-prefix "todos:Theme")
+  :properties `((:title :string ,(s-prefix "dct:title")))
+  :resource-base (s-url "http://resources.gamerlords.com/todos/themes/")
+  :on-path "themes"
+  )
 
-;; An example setup with a catalog, dataset, themes would be:
-;;
-;; (define-resource catalog ()
-;;   :class (s-prefix "dcat:Catalog")
-;;   :properties `((:title :string ,(s-prefix "dct:title")))
-;;   :has-many `((dataset :via ,(s-prefix "dcat:dataset")
-;;                        :as "datasets"))
-;;   :resource-base (s-url "http://webcat.tmp.semte.ch/catalogs/")
-;;   :on-path "catalogs")
-
-;; (define-resource dataset ()
-;;   :class (s-prefix "dcat:Dataset")
-;;   :properties `((:title :string ,(s-prefix "dct:title"))
-;;                 (:description :string ,(s-prefix "dct:description")))
-;;   :has-one `((catalog :via ,(s-prefix "dcat:dataset")
-;;                       :inverse t
-;;                       :as "catalog"))
-;;   :has-many `((theme :via ,(s-prefix "dcat:theme")
-;;                      :as "themes"))
-;;   :resource-base (s-url "http://webcat.tmp.tenforce.com/datasets/")
-;;   :on-path "datasets")
-
-;; (define-resource distribution ()
-;;   :class (s-prefix "dcat:Distribution")
-;;   :properties `((:title :string ,(s-prefix "dct:title"))
-;;                 (:access-url :url ,(s-prefix "dcat:accessURL")))
-;;   :resource-base (s-url "http://webcat.tmp.tenforce.com/distributions/")
-;;   :on-path "distributions")
-
-;; (define-resource theme ()
-;;   :class (s-prefix "tfdcat:Theme")
-;;   :properties `((:pref-label :string ,(s-prefix "skos:prefLabel")))
-;;   :has-many `((dataset :via ,(s-prefix "dcat:theme")
-;;                        :inverse t
-;;                        :as "datasets"))
-;;   :resource-base (s-url "http://webcat.tmp.tenforce.com/themes/")
-;;   :on-path "themes")
-
-;;
+(define-resource project ()
+  :class (s-prefix "todos:Project")
+  :properties `((:title :string ,(s-prefix "dct:title")))
+  :resource-base (s-url "http://resources.gamerlords.com/todos/projects/")
+  :on-path "projects"
+  )

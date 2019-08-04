@@ -1,0 +1,18 @@
+<h1>Users</h1>
+{{#each this.people as |person|}}
+    <li>Hello, {{person.name}}, your password is {{person.password}}!</li>
+{{/each}}
+
+<h1>Tasks</h1>
+<table>
+    {{#each this.tasks as |task|}}
+        <tr><td>{{task.title}}</td><td>{{task.done}}</td><td>{{task.due}}</td><td>{{task.priority}}</td></tr>
+    {{/each}}
+</table>
+
+<h1>Tags</h1>
+{{#each this.tags as |tag|}}
+    <li>{{tag.prefLabel}}</li>
+{{/each}}
+
+{{outlet}}

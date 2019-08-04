@@ -20,8 +20,8 @@
 ;; commented out domain.lisp.
 
 ;; (add-prefix "dcat" "http://www.w3.org/ns/dcat#")
-;; (add-prefix "dct" "http://purl.org/dc/terms/")
-;; (add-prefix "skos" "http://www.w3.org/2004/02/skos/core#")
+(add-prefix "dct" "http://purl.org/dc/terms/")
+(add-prefix "skos" "http://www.w3.org/2004/02/skos/core#")
 
 
 ;;;;;
@@ -32,3 +32,5 @@
 ;; by them and that it shouldn't be used for permanent URIs.
 
 (add-prefix "ext" "http://mu.semte.ch/vocabularies/ext/")
+(add-prefix "todos" "http://schema.gamerlords.com/todos/")
+(add-prefix "foaf" "http://xmlns.com/foaf/0.1/")

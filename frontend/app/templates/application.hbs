@@ -1,0 +1,210 @@
+{{#paper-toolbar}}
+    <div style="width:1225px; margin: auto;" >
+    {{#paper-toolbar-tools}}
+        <img src="assets/images/logo.png" width="65" height="50" />
+        &nbsp;&nbsp;&nbsp;
+        <h2>
+            Coffee Corner
+        </h2>
+        {{#if session.isAuthenticated}}
+            <span class="flex"></span>
+            {{#paper-button iconButton=true onClick=(action "showCNI")}}
+                {{#paper-tooltip}}
+                    Create a new task!
+                {{/paper-tooltip}}
+                {{paper-icon "add_box"}}
+            {{/paper-button}}
+        {{/if}}
+        <span class="flex"></span>
+        {{#if session.isAuthenticated}}
+            {{#paper-button iconButton=true}}
+                {{#paper-tooltip}}
+                    Your favorite tasks.
+                {{/paper-tooltip}}
+                {{paper-icon "favorite"}}
+            {{/paper-button}}
+            {{#paper-button iconButton=true}}
+                {{#paper-tooltip}}
+                    Check your productivity!
+                {{/paper-tooltip}}
+                {{paper-icon "show_chart"}}
+            {{/paper-button}}
+            {{#paper-button iconButton=true}}
+                {{#paper-tooltip}}
+                    Configure the coffe corner.
+                {{/paper-tooltip}}
+                {{paper-icon "settings"}}
+            {{/paper-button}}
+            {{#paper-button iconButton=true}}
+                {{#paper-tooltip}}
+                    Log out.
+                {{/paper-tooltip}}
+                {{paper-icon "person_outline"}}
+            {{/paper-button}}
+        {{else}}
+            {{#paper-button iconButton=true}}
+                {{#paper-tooltip}}
+                    Log in.
+                {{/paper-tooltip}}
+                {{paper-icon "person"}}
+            {{/paper-button}}
+        {{/if}}
+    {{/paper-toolbar-tools}}
+    </div>
+{{/paper-toolbar}}
+<div style="width:1225px; margin: auto; background-color: #fbfaf8;" >
+    {{#if session.isAuthenticated}}
+        {{#if showCNI}}
+            {{#paper-dialog fullscreen=fullscreen origin=dialogOrigin}}
+
+                {{#paper-dialog-content class="flex-77"}}
+                    <div style="float:right;">
+                        {{#paper-button iconButton=true onClick=(action "hideCNI")}}
+                            {{#paper-tooltip}}
+                                Close.
+                            {{/paper-tooltip}}
+                            {{paper-icon "close"}}
+                        {{/paper-button}}
+                    </div>
+                    <h2 class="md-title">Add task</h2>
+                    <div class="layout layout-sm-column" style="width:900px;">
+                        {{paper-input class="flex" placeholder="Task title" autofocus=true value=ntTitle onChange=(action (mut ntTitle))}}
+                        {{paper-input label="Due date" type="date" value=ntDate onChange=(action (mut ntDate))}}
+                    </div>
+                    <div style="float:right;">
+                        <span class="flex"></span>
+                        {{#paper-button primary=true iconButton=true}}
+                            {{paper-icon "assignment"}}
+                            {{#paper-tooltip}}
+                                Create this task in assignment: General
+                            {{/paper-tooltip}}
+                        {{/paper-button}}
+                        {{#paper-button primary=true iconButton=true}}
+                            {{paper-icon "label"}}
+                            {{#paper-tooltip}}
+                                This task has the following labels: none.
+                            {{/paper-tooltip}}
+                        {{/paper-button}}
+                        {{#paper-button primary=true iconButton=true raised=cniFavorite onClick=(action "cniToggleFavorite")}}
+                            {{paper-icon "star"}}
+                            {{#paper-tooltip}}
+                                Make this task a favorite task.
+                            {{/paper-tooltip}}
+                        {{/paper-button}}
+                        {{#paper-button primary=true iconButton=true raised=cniWarn onClick=(action "cniToggleWarn")}}
+                            {{paper-icon "warning"}}
+                            {{#paper-tooltip}}
+                                Warn me before this task is late!
+                            {{/paper-tooltip}}
+                        {{/paper-button}}
+                        {{#paper-button primary=true iconButton=true raised=cniHighPriority onClick=(action "cniToggleHighPriority")}}
+                            {{paper-icon "priority_high"}}
+                            {{#paper-tooltip}}
+                                Set this tasks priority to high!
+                            {{/paper-tooltip}}
+                        {{/paper-button}}
+                    </div>
+                {{/paper-dialog-content}}
+
+                {{#paper-dialog-actions class="layout-row"}}
+                    {{#paper-button raised=true accent=true}}Add Task{{/paper-button}}
+                    {{#paper-button accent=true onClick=(action "hideCNI")}}Cancel{{/paper-button}}
+                    <span class="flex"></span>
+                {{/paper-dialog-actions}}
+
+            {{/paper-dialog}}
+        {{/if}}
+        {{#paper-sidenav-container class="inner-sidenav"}}
+
+            {{#paper-sidenav}}
+                {{#paper-content padding=true}}
+                    {{#paper-button noink=true primary=true}}
+                        {{paper-icon "calendar-today"}}
+                        Today (2)
+                    {{/paper-button}}
+                {{/paper-content}}
+                {{#paper-content padding=true}}
+                    {{#paper-button noink=true primary=true}}
+                        {{paper-icon "calendar-view-day"}}
+                        Next 7 Days (14)
+                    {{/paper-button}}
+                {{/paper-content}}
+                {{#paper-content padding=true}}
+                    {{#paper-button noink=true accent=true}}
+                        {{paper-icon "star_border"}}
+                        Starred (4)
+                    {{/paper-button}}
+                {{/paper-content}}
+                {{#paper-content padding=true}}
+                    {{#paper-button noink=true accent=true}}
+                        {{paper-icon "whatshot"}}
+                        Alerts (11)
+                    {{/paper-button}}
+                {{/paper-content}}
+
+                {{paper-divider}}
+
+                {{#paper-content padding=true}}
+                    {{#paper-button noink=true primary=true}}
+                        {{paper-icon "assignment"}}
+                        Themes
+                    {{/paper-button}}
+                {{/paper-content}}
+
+                {{paper-divider}}
+
+                {{#paper-content padding=true}}
+                    {{#paper-button noink=true primary=true}}
+                        {{paper-icon "folder"}}
+                        Remote Sources
+                    {{/paper-button}}
+                {{/paper-content}}
+
+                {{paper-divider}}
+
+                {{#paper-content padding=true}}
+                    {{#paper-button noink=true primary=true}}
+                        {{paper-icon "label"}}
+                        Tags
+                    {{/paper-button}}
+                {{/paper-content}}
+
+
+                <div style="position: absolute; bottom: 0; padding-left: 15px;">
+                    {{paper-input accent=true placeholder="Search here..." type="text" value=searchString onChange=(action (mut searchString)) icon="search"}}
+                </div>
+
+            {{/paper-sidenav}}
+
+
+            {{#paper-card-content class="flex"}}
+                <div class="flex" style="height: 100%; min-height: 900px;">
+                    {{mu-logout}}
+
+                    {{#paper-button raised=true noink=true primary=true}}Primary (noink){{/paper-button}}
+                    {{#paper-button raised=true disabled=true}}disabled{{/paper-button}}
+                    {{#paper-button raised=true warn=true}}warn{{/paper-button}}
+                    {{#paper-button raised=true accent=true}}accent{{/paper-button}}
+                    {{outlet}}
+                </div>
+
+            {{/paper-card-content}}
+
+        {{/paper-sidenav-container}}
+
+    {{else}}
+
+        {{#paper-sidenav-container class="inner-sidenav"}}
+
+            {{#paper-card-content class="flex"}}
+                <div class="flex" style="height: 100%; min-height: 900px;">
+                    <div style="margin:auto; top: 355px; position: relative; display: block; width: 500px;">
+                        {{mu-login}}
+                    </div>
+                </div>
+
+            {{/paper-card-content}}
+
+        {{/paper-sidenav-container}}
+{{/if}}
+</div>

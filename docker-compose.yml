@@ -28,3 +28,15 @@ services:
       - db:database
     volumes:
       - ./config/resources:/config
+  login:
+    image: semtech/mu-login-service:2.8.0
+    links:
+      - db:database
+    environment:
+      MU_APPLICATION_SALT: "48710d57a26e4b78b6193b03f98a07db"
+  # registration:
+  #   image: semtech/mu-registration-service:2.6.0
+  #   links:
+  #     - db:database
+  #   environment:
+  #     MU_APPLICATION_SALT: "48710d57a26e4b78b6193b03f98a07db"
